@@ -4,6 +4,6 @@
 count=10
 until [ $count -lt 1 ]
 do
-echo "Best School"
-let count-=1
+	echo "Best School"
+	let count-=1
 done
