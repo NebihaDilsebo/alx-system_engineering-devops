@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-#kills 7-highlander process
-pgrep -x "7-highlander" >/dev/null && pkill -f '7-highlander';
+#kills the process 7-highlander
+kill - KILL "$(pgrep -f ./7-highlander)"
