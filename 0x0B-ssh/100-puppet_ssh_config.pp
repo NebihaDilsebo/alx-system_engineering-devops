@@ -1,12 +1,7 @@
-#!/usr/bin/env bash
-## using puppet to make changes to our configuration
-
-file { 'ect/ssh/ssh_config':
-	ensure => present,
-content =>"
-
-	#SSH client configuration
-	host*
-	IdentityFile ~/.ssh/school
-	PasswordAuthentication no
+# set up your client SSH configuration file so that you can
+# connect to a server without typing a password
+exec { 'echo':
+  path    => 'usr/bin:/bin',
+  command => 'echo "    IdentityFile ~/.ssh/school\n    PasswordAuthentication no" >> /etc/ssh/ssh_config',
+  returns => [0,1],
 }
