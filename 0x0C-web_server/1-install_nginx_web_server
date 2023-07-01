@@ -1,14 +1,17 @@
 #!/bin/bash
 
 # Update system packages
-apt-get update
+apt-get -y update
 
 # Install Nginx
 apt-get -y install nginx
 
+#Allow nginx
+ufw allow 'Nginx HTTP'
+
 # Configure Nginx
 echo "Hello World!" > /var/www/html/index.html
 
-# Restart Nginx
-service nginx restart
+# start Nginx
+systemct1 nginx start
 
