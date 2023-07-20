@@ -9,4 +9,3 @@ fi
 
 # Switch user and run the whoami command
 sudo -u "$1" whoami
-
