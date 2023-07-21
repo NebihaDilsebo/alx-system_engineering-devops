@@ -1,28 +1,7 @@
-#!/bin/bash
-
-# Stop the existing nginx process running as root
-service nginx stop
-
-# Replace the default nginx user with nginx
-sed -i 's/user\s*www-data;/user nginx;/' /etc/nginx/nginx.conf
-
-# Check if nginx user exists, if not, create it
-id -u nginx &>/dev/null || useradd -r nginx
-
-# Set the correct permissions on the Nginx directories
-chown -R nginx:nginx /var/www/html
-chown -R nginx:nginx /var/lib/nginx
-
-# Start nginx as the nginx user
-/usr/sbin/nginx
-
-# Verify that nginx is running as the nginx user
-ps auxff | grep "ngin[x]" | grep -v grep
-
-# Check if nginx is listening on all active IPs on port 8080
-nc -z 0 8080
-
-# You may also include additional configurations here if necessary
-
-# End of the script
-
+#!/usr/bin/env bash
+# runs nginx as nginx
+pkill apache2
+chown nginx:nginx /etc/nginx/nginx.conf
+chmod 777 /etc/nginx/nginx.conf
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+sudo -u nginx service nginx start
