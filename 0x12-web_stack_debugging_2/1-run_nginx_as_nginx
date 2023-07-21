@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Step 1: Create the nginx user if it doesn't exist
+if ! id -u nginx &>/dev/null; then
+    useradd -r nginx
+fi
+
+# Step 2: Update the "default" Nginx configuration to listen on all active IPs on port 8080
+# We'll create the "default" file if it doesn't exist, and add the server block configuration.
+echo '
+server {
+       listen 8080;
+       listen [::]:8080;
+
+       server_name example.com;
+
+       root /var/www/example.com;
+       index index.html;
+
+       location / {
+               try_files $uri $uri/ =404;
+       }
+}
+' | tee /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Step 3: Ensure that Nginx process is running as the nginx user
+# Stop the existing Nginx process
+killall nginx
+
+# Start Nginx using the nginx user
+nginx -g 'daemon off;'
+
