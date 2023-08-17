@@ -1,5 +1,6 @@
-# Fixing the number of failed requests to 0
-exec { 'fix--for-nginx':
-  command => "sed -i 's/worker_processes 4;/worker_processes 7;/g' /etc/nginx/nginx.conf; sudo service nginx restart",
-  path    => ['/bin', '/usr/bin', '/usr/sbin']
-}
+#Puppet file that fixes multiple server errors in Nginx server
+
+exec { 'fix_limit':
+  path     => ['/usr/bin', '/sbin', '/bin', '/usr/sbin'],
+  command  =>  "sed -i 's/ULIMIT=\"-n 15\"/ULIMIT=\"-n 3072\"/g' /etc/default/nginx; sudo service nginx restart",
+  provider =>  'shell'}
